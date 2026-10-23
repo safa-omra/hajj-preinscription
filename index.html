@@ -33,9 +33,11 @@
   label.q,.q-title{display:block;font-weight:600;margin-bottom:10px}
   .q-hint{font-weight:400;color:var(--muted);font-size:.9rem;display:block;margin-top:2px}
   .star{color:var(--err)}
-  input[type=text],input[type=email],input[type=tel],textarea{
+  input[type=text],input[type=email],input[type=tel],input[type=date],select,textarea{
     width:100%;padding:10px 4px;border:0;border-bottom:2px solid var(--line);font:inherit;background:transparent;outline:none;transition:.2s}
-  input[type=text]:focus,input[type=email]:focus,input[type=tel]:focus,textarea:focus{border-bottom-color:var(--green)}
+  input[type=text]:focus,input[type=email]:focus,input[type=tel]:focus,input[type=date]:focus,select:focus,textarea:focus{border-bottom-color:var(--green)}
+  select{width:100%;padding:10px 4px;border:0;border-bottom:2px solid var(--line);font:inherit;background:transparent}
+  ul.hint{padding-left:22px}
   textarea{resize:vertical;min-height:70px}
   .opt{display:flex;align-items:flex-start;gap:10px;padding:8px 6px;border-radius:8px;cursor:pointer}
   .opt:hover{background:#f6f3ea}
@@ -45,6 +47,7 @@
   .card.invalid .err{display:block}
   .sub{margin:6px 0 0 4px;padding:12px 14px;background:#faf7ef;border-radius:10px;display:none}
   .sub.show{display:block}
+  .sub.invalid .err{display:block}
   .sub .q-title{color:var(--green);margin-bottom:6px}
   .other-text{display:none;margin-left:28px}
   .other-text.show{display:block}
@@ -102,18 +105,66 @@
       <input type="text" id="passeport" name="Numéro de passeport" placeholder="Votre réponse">
       <div class="err">Cette question est obligatoire.</div></div>
 
+    <div class="card" data-req="select" id="passportTypeCard">
+      <label class="q" for="passportType">Type de passeport <span class="star">*</span></label>
+      <select id="passportType" name="Type de passeport" required>
+        <option value="">Sélectionnez une option</option>
+        <option value="UE">Passeport de l’Union européenne (UE)</option>
+        <option value="Étranger">Passeport étranger (hors UE)</option>
+      </select>
+      <div class="err">Veuillez sélectionner le type de passeport.</div>
+      <div class="sub" id="foreignCountryBox">
+        <label class="q" for="passportCountry">Pays émetteur du passeport <span class="star">*</span></label>
+        <select id="passportCountry" name="Pays du passeport">
+          <option value="">Sélectionnez le pays</option>
+          <option>Algérie</option><option>Maroc</option><option>Tunisie</option>
+          <option>Royaume-Uni</option><option>Suisse</option><option>Canada</option>
+          <option>États-Unis</option><option>Turquie</option><option>Sénégal</option>
+          <option>Côte d’Ivoire</option><option>Cameroun</option><option>Mauritanie</option>
+          <option>Autre pays</option>
+        </select>
+        <div class="err">Veuillez sélectionner le pays émetteur.</div>
+      </div>
+    </div>
+
     <div class="card" data-req="text"><label class="q" for="nationalite">Nationalité <span class="star">*</span></label>
       <input type="text" id="nationalite" name="Nationalité" placeholder="Votre réponse">
       <div class="err">Cette question est obligatoire.</div></div>
+
+    <div class="card" data-req="date" id="passportExpiryCard">
+      <label class="q" for="passportExpiry">Date d’expiration du passeport <span class="star">*</span></label>
+      <input type="date" id="passportExpiry" name="Date d’expiration du passeport" required>
+      <div class="err">Veuillez indiquer la date d’expiration du passeport.</div>
+    </div>
 
     <div class="card"><label class="q" for="sejour">Numéro de titre séjour (hors UE)</label>
       <input type="text" id="sejour" name="Numéro de titre de séjour" placeholder="Votre réponse"></div>
 
     <div class="card" data-req="file" id="passportFileCard">
       <label class="q" for="passportFile">Copie du passeport <span class="star">*</span></label>
-      <p class="hint">PDF, JPG ou PNG — 5 Mo maximum. Utilisez un document de test avant la mise en service.</p>
+      <p class="hint">Avant de téléverser le document, vérifiez que la photo du passeport doit :</p>
+      <ul class="hint">
+        <li>Montrer la totalité de la page principale.</li>
+        <li>Être de très bonne qualité : toutes les informations doivent être lisibles.</li>
+        <li>Ne pas être prise avec le flash.</li>
+      </ul>
+      <p class="hint">PDF, JPG ou PNG — 5 Mo maximum.</p>
       <input type="file" id="passportFile" accept="application/pdf,image/jpeg,image/png" required>
       <div class="err">Veuillez joindre une copie de votre passeport.</div>
+    </div>
+
+    <div class="card" data-req="file" id="identityPhotoCard">
+      <label class="q" for="identityPhoto">Photo d’identité récente <span class="star">*</span></label>
+      <p class="hint">La photo d’identité doit :</p>
+      <ul class="hint">
+        <li>Obligatoirement être sur fond blanc.</li>
+        <li>Être de très bonne qualité.</li>
+        <li>Ne pas être prise avec le flash.</li>
+        <li>Pour les femmes, être avec hijab.</li>
+      </ul>
+      <p class="hint">JPG ou PNG — 5 Mo maximum.</p>
+      <input type="file" id="identityPhoto" accept="image/jpeg,image/png" required>
+      <div class="err">Veuillez joindre une photo d’identité conforme.</div>
     </div>
 
     <div class="card">
@@ -207,6 +258,14 @@
     <div class="card"><label class="q" for="comm">Commentaires</label>
       <textarea id="comm" name="Commentaires" placeholder="Votre réponse"></textarea></div>
 
+    <div class="card" data-req="checkbox" id="consentCard">
+      <label class="opt">
+        <input type="checkbox" id="consent" name="Autorisation de traitement des données" value="Oui" required>
+        <span>J’autorise SAFA OMRA à utiliser les informations ci-dessus dans le cadre de l’organisation du <strong>HAJJ 2027</strong>. <span class="star">*</span></span>
+      </label>
+      <div class="err">Votre autorisation est nécessaire pour envoyer le formulaire.</div>
+    </div>
+
     <div class="actions">
       <button type="submit" class="btn" id="submitBtn">Envoyer</button>
       <button type="button" class="btn-link" id="resetBtn">Effacer le formulaire</button>
@@ -229,6 +288,19 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyoEkXMsEQ9jCDiyaBlG
 const WHATSAPP = "33605779373";
 
 const f = document.getElementById('f');
+
+const passportType = document.getElementById('passportType');
+const foreignCountryBox = document.getElementById('foreignCountryBox');
+const passportCountry = document.getElementById('passportCountry');
+passportType.addEventListener('change', () => {
+  const foreign = passportType.value === 'Étranger';
+  foreignCountryBox.classList.toggle('show', foreign);
+  passportCountry.required = foreign;
+  if (!foreign) {
+    passportCountry.value = '';
+    foreignCountryBox.classList.remove('invalid');
+  }
+});
 
 // Compte Nusuk : sous-questions conditionnelles
 f.querySelectorAll('input[name="Compte Nusuk"]').forEach(r => r.addEventListener('change', () => {
@@ -257,7 +329,9 @@ document.getElementById('resetBtn').addEventListener('click', () => {
   if (!confirm('Effacer toutes vos réponses ?')) return;
   f.reset();
   document.querySelectorAll('.sub,.other-text').forEach(e => e.classList.remove('show'));
-  document.querySelectorAll('.card.invalid').forEach(c => c.classList.remove('invalid'));
+  document.querySelectorAll('.card.invalid,.sub.invalid').forEach(c => c.classList.remove('invalid'));
+  foreignCountryBox.classList.toggle('show', passportType.value === 'Étranger');
+  passportCountry.required = passportType.value === 'Étranger';
 });
 
 function validate() {
@@ -269,11 +343,29 @@ function validate() {
     if (t === 'email') good = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(card.querySelector('input').value.trim());
     if (t === 'radio') good = !!card.querySelector('input:checked');
     if (t === 'file') good = !!card.querySelector('input[type="file"]').files[0];
+    if (t === 'select') {
+      good = !!card.querySelector('select').value;
+      if (card.id === 'passportTypeCard' && document.getElementById('passportType').value === 'Étranger') {
+        const country = document.getElementById('passportCountry');
+        country.required = true;
+        if (!country.value) {
+          good = false;
+          document.getElementById('foreignCountryBox').classList.add('show');
+          document.getElementById('foreignCountryBox').classList.add('invalid');
+        }
+      }
+    }
+    if (t === 'date') good = !!card.querySelector('input[type="date"]').value;
+    if (t === 'checkbox') good = !!card.querySelector('input[type="checkbox"]').checked;
     card.classList.toggle('invalid', !good);
     if (!good) { ok = false; first = first || card; }
   });
   const allowed = ['application/pdf', 'image/jpeg', 'image/png'];
-  const selected = [document.getElementById('passportFile').files[0], document.getElementById('residenceFile').files[0]].filter(Boolean);
+  const selected = [
+    document.getElementById('passportFile').files[0],
+    document.getElementById('identityPhoto').files[0],
+    document.getElementById('residenceFile').files[0]
+  ].filter(Boolean);
   let total = 0;
   for (const file of selected) {
     total += file.size;
@@ -318,7 +410,8 @@ f.addEventListener('submit', async e => {
   try {
     const fileInputs = [
       { input: document.getElementById('passportFile'), label: 'Passeport' },
-      { input: document.getElementById('residenceFile'), label: 'Titre de séjour' }
+      { input: document.getElementById('identityPhoto'), label: 'Photo_identite' },
+      { input: document.getElementById('residenceFile'), label: 'Titre_sejour' }
     ];
     const files = [];
     for (const item of fileInputs) {
@@ -336,14 +429,18 @@ f.addEventListener('submit', async e => {
         telephone: data['Téléphone'] || '',
         nationalite: data['Nationalité'] || '',
         numeroPasseport: data['Numéro de passeport'] || '',
-        villeDepart: data['Départ'] || '',
+        typePasseport: data['Type de passeport'] || '',
+        paysPasseport: data['Pays du passeport'] || '',
+        dateExpirationPasseport: data['Date d’expiration du passeport'] || '',
+        consentement: data['Autorisation de traitement des données'] || '',
+        villeDepart: data['Départ'] || '', 
         preference: data['Commencer par'] || '',
         duree: data['Durée'] || '',
         formule: data['Formule'] || '',
         hebergement: [data['Hôtel'], data['Hôtels Makkah']].filter(Boolean).join(' ; '),
         transport: data['Trajet'] || '',
         nusuk: [data['Compte Nusuk'], data['Nusuk validé'], data['Nusuk groupe']].filter(Boolean).join(' ; '),
-        commentaires: [data['Commentaires'], data['Numéro de titre de séjour'], data['Services spéciaux'], data['Services spéciaux (autre)']].filter(Boolean).join(' ; ')
+        commentaires: [data['Commentaires'], data['Services spéciaux'], data['Services spéciaux (autre)']].filter(Boolean).join(' ; ')
       },
       files: files,
       website: ''
