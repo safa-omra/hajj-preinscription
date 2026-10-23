@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>SAFA OMRA – Pré-inscription Hajj 1447/2026</title>
+<title>SAFA OMRA – Pré-inscription Hajj 1448/2027</title>
 <meta name="author" content="SAFA OMRA">
-<meta property="og:title" content="SAFA OMRA – Pré-inscription Hajj 1447/2026">
+<meta property="og:title" content="SAFA OMRA – Pré-inscription Hajj 1448/2027">
 <style>
   :root{
     --green:#0f5b43; --green-d:#0a4231; --gold:#c9a24b; --bg:#f4f1ea; --card:#fff;
@@ -58,6 +58,7 @@
   .done{display:none;text-align:center;padding:40px 24px}
   .done h2{color:var(--green)}
   @media(max-width:520px){.card{padding:18px 16px}.hero h1{font-size:1.3rem}}
+.hint{font-size:.9rem;color:#666;line-height:1.45;margin:.25rem 0 .75rem}
 </style>
 </head>
 <body>
@@ -65,16 +66,16 @@
 
   <div class="hero">
     <div class="brand-logo"><img src="https://raw.githubusercontent.com/safa-omra/hajj-preinscription/main/logo%20safa.jpg" alt="Logo SAFA OMRA"></div>
-    <h1>Formulaire de pré-inscription Hajj 1447/2026</h1>
-    <small>Pèlerinage 2026 · Services aux pèlerins</small>
+    <h1>Formulaire de pré-inscription au Hajj 1448/2027</h1>
+    <small>Pèlerinage 2027 · Pré-inscriptions ouvertes</small>
   </div>
 
   <div class="card intro">
     <p class="salam">As Salam Alaykoum Wa Rahmatullah Wa barakatuhu</p>
-    <p>Toutes les louanges sont à Allah et que la prière et le salut d’Allah soient sur son prophète Muhamad ainsi que ses suiveurs, ceci étant dit:</p>
-    <p>Nous avons le plaisir de vous annoncer que les inscriptions pour le pèlerinage de l’année prochaine (2026/1447) vont bientôt commencer in sha Allah, vers la fin du mois d’octobre 2025, sur le site officiel du ministère du hajj : Nusuk hajj. Ainsi, en collaboration avec nos partenaires Saoudien et agences agréés par le ministère saoudien du pèlerinage pour les services aux pèlerins européens, nous invitons notre aimable clientèle ainsi que tous ceux qui souhaitent faire parti de notre groupe pour le hajj prochain, à remplir ce premier formulaire de pré inscription. Bien évidemment ceci n’est pas un engagement, c’est simplement pour l’organisation et le bon déroulement des procédures.</p>
-    <p>Nous aurons très prochainement plus de détails sur les différentes offres et formules proposées par les agences saoudiennes.<br>
-    Ceux qui sont intéressés n’ont qu’à remplir le formulaire et ensuite suivre les informations que nous publierons sur les différents réseaux: Telegram, Instagram, WhatsApp.</p>
+    <p>Al hamdulillah, SAFA OMRA ouvre dès maintenant les pré-inscriptions pour le Hajj 1448/2027.</p>
+    <p>Vous envisagez d’accomplir le pèlerinage et souhaitez être informé(e) des prochaines étapes ? Ce formulaire nous permet de recueillir vos préférences afin de préparer l’organisation et de vous transmettre les informations utiles dès qu’elles seront disponibles.</p>
+    <p>Cette pré-inscription est une démarche d’intérêt et d’organisation. Elle ne constitue ni une réservation définitive, ni une garantie de place, ni une inscription officielle auprès des autorités saoudiennes. Les démarches officielles et les modalités du pèlerinage dépendront des procédures et annonces des organismes compétents, notamment via la plateforme Nusuk Hajj.</p>
+    <p>Les détails des formules, des tarifs, des hébergements et des transports seront communiqués dès qu’ils seront confirmés. Pour suivre nos actualités, retrouvez SAFA OMRA sur Instagram ou contactez-nous par WhatsApp.</p>
     <div class="contact">
       Pour toute information, contactez SAFA OMRA :<br>
       <div class="contact-links">
@@ -105,8 +106,21 @@
       <input type="text" id="nationalite" name="Nationalité" placeholder="Votre réponse">
       <div class="err">Cette question est obligatoire.</div></div>
 
-    <div class="card"><label class="q" for="sejour">Numéro de titre séjour ( Hors UE)</label>
+    <div class="card"><label class="q" for="sejour">Numéro de titre séjour (hors UE)</label>
       <input type="text" id="sejour" name="Numéro de titre de séjour" placeholder="Votre réponse"></div>
+
+    <div class="card" data-req="file" id="passportFileCard">
+      <label class="q" for="passportFile">Copie du passeport <span class="star">*</span></label>
+      <p class="hint">PDF, JPG ou PNG — 5 Mo maximum. Utilisez un document de test avant la mise en service.</p>
+      <input type="file" id="passportFile" accept="application/pdf,image/jpeg,image/png" required>
+      <div class="err">Veuillez joindre une copie de votre passeport.</div>
+    </div>
+
+    <div class="card">
+      <label class="q" for="residenceFile">Copie du titre de séjour (si concerné)</label>
+      <p class="hint">PDF, JPG ou PNG — 5 Mo maximum.</p>
+      <input type="file" id="residenceFile" accept="application/pdf,image/jpeg,image/png">
+    </div>
 
     <div class="card" data-req="email"><label class="q" for="email">Adresse e-mail <span class="star">*</span></label>
       <input type="email" id="email" name="Adresse e-mail" placeholder="Votre réponse" autocomplete="email">
@@ -131,14 +145,14 @@
       <button type="button" class="clear" data-clear="Commencer par">Effacer la sélection</button></div>
 
     <div class="card">
-      <div class="q-title">Les formules seront d’une durée de 10 jours à 17 jours maximum, je préfère une formule de</div>
+      <div class="q-title">Selon les formules qui seront proposées, je privilégie une durée de séjour de</div>
       <label class="opt"><input type="radio" name="Durée" value="14 jours (la plus courte possible)"> 14 jours ( la plus courte possible )</label>
       <label class="opt"><input type="radio" name="Durée" value="15/16 jours (+ ou -)"> 15/16 jours( + ou -)</label>
       <label class="opt"><input type="radio" name="Durée" value="17 jours (la plus longue possible)"> 17 jours (la plus longue possible)</label>
       <button type="button" class="clear" data-clear="Durée">Effacer la sélection</button></div>
 
     <div class="card">
-      <div class="q-title">Les formules seront de 7 000€ à plus de 9 000€ avec les billets d’avion inclus, je préfère la formule</div>
+      <div class="q-title">Concernant le niveau de confort souhaité, je préfère la formule</div>
       <label class="opt"><input type="radio" name="Formule" value="La plus économique (moins chère)"> La plus économique (moins chère)</label>
       <label class="opt"><input type="radio" name="Formule" value="La plus rentable niveau rapport qualité prix"> La formule la plus rentable niveau rapport qualité prix</label>
       <label class="opt"><input type="radio" name="Formule" value="La plus luxueuse (le plus de confort)"> La formule la plus luxueuse (le plus de confort)</label>
@@ -211,7 +225,7 @@
 <script>
 /* ⚙️ Collez ici l'URL de déploiement de votre Google Apps Script (voir apps-script-hajj.gs).
    Tant qu'elle est vide, l'envoi se fait par WhatsApp (message pré-rempli). */
-const SCRIPT_URL = "";
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyoEkXMsEQ9jCDiyaBlG2CZcWSakDUtK4WbjWFk26IdHox9lHY38jIQFnUrZx93OYck/exec";
 const WHATSAPP = "33605779373";
 
 const f = document.getElementById('f');
@@ -254,17 +268,45 @@ function validate() {
     if (t === 'text') good = card.querySelector('input').value.trim() !== '';
     if (t === 'email') good = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(card.querySelector('input').value.trim());
     if (t === 'radio') good = !!card.querySelector('input:checked');
+    if (t === 'file') good = !!card.querySelector('input[type="file"]').files[0];
     card.classList.toggle('invalid', !good);
     if (!good) { ok = false; first = first || card; }
   });
+  const allowed = ['application/pdf', 'image/jpeg', 'image/png'];
+  const selected = [document.getElementById('passportFile').files[0], document.getElementById('residenceFile').files[0]].filter(Boolean);
+  let total = 0;
+  for (const file of selected) {
+    total += file.size;
+    if (!allowed.includes(file.type) || file.size > 5 * 1024 * 1024) {
+      alert('Chaque document doit être un PDF, JPG ou PNG de 5 Mo maximum.');
+      ok = false; first = first || document.getElementById('passportFileCard');
+      break;
+    }
+  }
+  if (total > 10 * 1024 * 1024) {
+    alert('La taille totale des documents ne doit pas dépasser 10 Mo.');
+    ok = false; first = first || document.getElementById('passportFileCard');
+  }
   if (first) first.scrollIntoView({behavior:'smooth', block:'center'});
   return ok;
 }
 
 function collect() {
   const d = {};
-  new FormData(f).forEach((v, k) => { d[k] = d[k] ? d[k] + ', ' + v : v; });
+  new FormData(f).forEach((v, k) => {
+    if (v instanceof File) return;
+    d[k] = d[k] ? d[k] + ', ' + v : v;
+  });
   return d;
+}
+
+function readFileAsBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(String(reader.result));
+    reader.onerror = () => reject(new Error('Lecture du fichier impossible.'));
+    reader.readAsDataURL(file);
+  });
 }
 
 f.addEventListener('submit', async e => {
@@ -272,23 +314,61 @@ f.addEventListener('submit', async e => {
   if (!validate()) return;
   const data = collect();
   const btn = document.getElementById('submitBtn');
-  btn.disabled = true; btn.textContent = 'Envoi…';
-  if (SCRIPT_URL) {
-    try {
-      await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors',
-        headers: {'Content-Type': 'text/plain;charset=utf-8'}, body: JSON.stringify(data) });
-      f.style.display = 'none';
-      document.querySelector('.intro').style.display = 'none';
-      document.getElementById('done').style.display = 'block';
-      window.scrollTo({top: 0, behavior: 'smooth'});
-    } catch (err) {
-      alert("L'envoi a échoué. Vérifiez votre connexion et réessayez.");
-      btn.disabled = false; btn.textContent = 'Envoyer';
+  btn.disabled = true; btn.textContent = 'Préparation des documents…';
+  try {
+    const fileInputs = [
+      { input: document.getElementById('passportFile'), label: 'Passeport' },
+      { input: document.getElementById('residenceFile'), label: 'Titre de séjour' }
+    ];
+    const files = [];
+    for (const item of fileInputs) {
+      const file = item.input.files[0];
+      if (!file) continue;
+      const dataUrl = await readFileAsBase64(file);
+      files.push({ name: item.label + '_' + file.name, mimeType: file.type, data: dataUrl });
     }
-  } else {
-    const msg = "SAFA OMRA – Pré-inscription Hajj 1447/2026\nsafa-omra.github.io/hajj-preinscription\n\n" +
-      Object.entries(data).filter(([, v]) => v).map(([k, v]) => k + " : " + v).join("\n");
-    window.open("https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg), "_blank");
+
+    const payload = {
+      answers: {
+        nom: data['Nom'] || '',
+        prenom: data['Prénom'] || '',
+        email: data['Adresse e-mail'] || '',
+        telephone: data['Téléphone'] || '',
+        nationalite: data['Nationalité'] || '',
+        numeroPasseport: data['Numéro de passeport'] || '',
+        villeDepart: data['Départ'] || '',
+        preference: data['Commencer par'] || '',
+        duree: data['Durée'] || '',
+        formule: data['Formule'] || '',
+        hebergement: [data['Hôtel'], data['Hôtels Makkah']].filter(Boolean).join(' ; '),
+        transport: data['Trajet'] || '',
+        nusuk: [data['Compte Nusuk'], data['Nusuk validé'], data['Nusuk groupe']].filter(Boolean).join(' ; '),
+        commentaires: [data['Commentaires'], data['Numéro de titre de séjour'], data['Services spéciaux'], data['Services spéciaux (autre)']].filter(Boolean).join(' ; ')
+      },
+      files: files,
+      website: ''
+    };
+
+    btn.textContent = 'Envoi en cours…';
+    // Apps Script ne permet pas toujours de lire sa réponse depuis GitHub Pages.
+    // no-cors transmet la requête, mais ne confirme pas l'enregistrement côté serveur.
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type': 'text/plain;charset=utf-8'},
+      body: JSON.stringify(payload)
+    });
+
+    f.style.display = 'none';
+    document.querySelector('.intro').style.display = 'none';
+    const done = document.getElementById('done');
+    done.style.display = 'block';
+    done.querySelector('h2').textContent = 'Votre demande a été transmise';
+    done.querySelector('p').textContent = 'Votre navigateur a transmis la demande. Comme Google Apps Script ne permet pas ici de confirmer le résultat, veuillez vérifier le tableau Google Sheets et le dossier Drive avant de considérer la réception comme validée.';
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  } catch (err) {
+    console.error(err);
+    alert("L'envoi n'a pas pu être préparé. Vérifiez les fichiers et réessayez.");
     btn.disabled = false; btn.textContent = 'Envoyer';
   }
 });
