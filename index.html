@@ -101,6 +101,23 @@
       <input type="text" id="prenom" name="Prénom" placeholder="Votre réponse" autocomplete="given-name">
       <div class="err">Cette question est obligatoire.</div></div>
 
+    <div class="card" data-req="select" id="residenceCountryCard">
+      <label class="q" for="residenceCountry">Pays de résidence <span class="star">*</span></label>
+      <select id="residenceCountry" name="Pays de résidence" required>
+        <option value="">Sélectionnez votre pays de résidence</option>
+        <option>France</option><option>Algérie</option><option>Maroc</option><option>Tunisie</option>
+        <option>Belgique</option><option>Suisse</option><option>Luxembourg</option><option>Espagne</option>
+        <option>Italie</option><option>Allemagne</option><option>Royaume-Uni</option><option>Canada</option>
+        <option>États-Unis</option><option>Arabie saoudite</option><option>Autre pays</option>
+      </select>
+      <div class="err">Veuillez sélectionner votre pays de résidence.</div>
+    </div>
+
+    <div class="card" data-req="text"><label class="q" for="nationalite">Nationalité <span class="star">*</span></label>
+      <input type="text" id="nationalite" name="Nationalité" placeholder="Votre réponse">
+      <div class="err">Cette question est obligatoire.</div></div>
+
+
     <div class="card" data-req="text"><label class="q" for="passeport">Numéro de passeport <span class="star">*</span></label>
       <input type="text" id="passeport" name="Numéro de passeport" placeholder="Votre réponse">
       <div class="err">Cette question est obligatoire.</div></div>
@@ -126,23 +143,8 @@
         <div class="err">Veuillez sélectionner le pays émetteur.</div>
       </div>
     </div>
-
-    <div class="card" data-req="text"><label class="q" for="nationalite">Nationalité <span class="star">*</span></label>
-      <input type="text" id="nationalite" name="Nationalité" placeholder="Votre réponse">
-      <div class="err">Cette question est obligatoire.</div></div>
-
-    <div class="card" data-req="select" id="residenceCountryCard">
-      <label class="q" for="residenceCountry">Pays de résidence <span class="star">*</span></label>
-      <select id="residenceCountry" name="Pays de résidence" required>
-        <option value="">Sélectionnez votre pays de résidence</option>
-        <option>France</option><option>Algérie</option><option>Maroc</option><option>Tunisie</option>
-        <option>Belgique</option><option>Suisse</option><option>Luxembourg</option><option>Espagne</option>
-        <option>Italie</option><option>Allemagne</option><option>Royaume-Uni</option><option>Canada</option>
-        <option>États-Unis</option><option>Arabie saoudite</option><option>Autre pays</option>
-      </select>
-      <div class="err">Veuillez sélectionner votre pays de résidence.</div>
-    </div>
-
+    
+    
     <div class="card" data-req="date" id="passportExpiryCard">
       <label class="q" for="passportExpiry">Date d’expiration du passeport <span class="star">*</span></label>
       <input type="date" id="passportExpiry" name="Date d’expiration du passeport" required>
@@ -198,10 +200,11 @@
       <div class="err">Cette question est obligatoire.</div></div>
 
     <div class="card" data-req="radio" data-name="Départ">
-      <div class="q-title">Je souhaite faire mon départ de <span class="star">*</span></div>
+      <div class="q-title">Ville de départ souhaitée <span class="star">*</span></div>
       <label class="opt"><input type="radio" name="Départ" value="Paris"> Paris</label>
+      <label class="opt"><input type="radio" name="Départ" value="Lyon"> Lyon</label>
+      <label class="opt"><input type="radio" name="Départ" value="Lille"> Lille</label>
       <label class="opt"><input type="radio" name="Départ" value="Marseille"> Marseille</label>
-      <label class="opt"><input type="radio" name="Départ" value="Genève"> Genève</label>
       <div class="err">Cette question est obligatoire.</div></div>
 
     <div class="card">
@@ -226,9 +229,9 @@
       <button type="button" class="clear" data-clear="Formule">Effacer la sélection</button></div>
 
     <div class="card">
-      <div class="q-title">Les hôtels seront conforts ou économiques, je préfère avoir un hôtel </div>
-      <label class="opt"><input type="radio" name="Hôtel" value="Confort"> Confort</label>
-      <label class="opt"><input type="radio" name="Hôtel" value="Eco"> Eco</label>
+      <div class="q-title">Les hôtels seront de 4 étoiles à 5 étoiles, je préfère avoir un hôtel de</div>
+      <label class="opt"><input type="radio" name="Hôtel" value="4 étoiles"> 4 étoiles</label>
+      <label class="opt"><input type="radio" name="Hôtel" value="5 étoiles"> 5 étoiles</label>
       <label class="opt"><input type="radio" name="Hôtel" value="Peu m’importe"> Peu m’importe</label>
       <button type="button" class="clear" data-clear="Hôtel">Effacer la sélection</button></div>
 
