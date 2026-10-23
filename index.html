@@ -240,28 +240,7 @@
       <button type="button" class="clear" data-clear="Catégorie Nusuk">Effacer la sélection</button>
     </div>
 
-    <div class="card">
-      <div class="q-title">Concernant le niveau de confort souhaité, je préfère la formule</div>
-      <label class="opt"><input type="radio" name="Formule" value="La plus économique (moins chère)"> La plus économique (moins chère)</label>
-      <label class="opt"><input type="radio" name="Formule" value="La plus rentable niveau rapport qualité prix"> La formule la plus rentable niveau rapport qualité prix</label>
-      <label class="opt"><input type="radio" name="Formule" value="La plus luxueuse (le plus de confort)"> La formule la plus luxueuse (le plus de confort)</label>
-      <button type="button" class="clear" data-clear="Formule">Effacer la sélection</button></div>
-
-    <div class="card">
-      <div class="q-title">Les hôtels seront de 4 étoiles à 5 étoiles, je préfère avoir un hôtel de</div>
-      <label class="opt"><input type="radio" name="Hôtel" value="4 étoiles"> 4 étoiles</label>
-      <label class="opt"><input type="radio" name="Hôtel" value="5 étoiles"> 5 étoiles</label>
-      <label class="opt"><input type="radio" name="Hôtel" value="Peu m’importe"> Peu m’importe</label>
-      <button type="button" class="clear" data-clear="Hôtel">Effacer la sélection</button></div>
-
-    <div class="card">
-      <div class="q-title">Les hôtels de Makkah seront différents avant les jours du hajj et après les jours du hajj, (après les jours de Minna)</div>
-      <label class="opt"><input type="checkbox" name="Hôtels Makkah" value="Proche du Haram avant le hajj"> Je souhaite être proche du Haram Avant les jours du hajj</label>
-      <label class="opt"><input type="checkbox" name="Hôtels Makkah" value="Proche du Haram après le hajj"> Je souhaite être proche du Haram après les jours du Hajj</label>
-      <label class="opt"><input type="checkbox" name="Hôtels Makkah" value="Proche de Minna avant le hajj"> Je souhaite être proche de Minna avant les jours du Hajj</label>
-      <label class="opt"><input type="checkbox" name="Hôtels Makkah" value="Proche de Minna après le hajj"> Je souhaite être proche de Minna après les jours du Hajj</label>
-      <label class="opt"><input type="checkbox" name="Hôtels Makkah" value="Peu m’importe" id="makkahPeu"> Peu m’importe</label></div>
-
+   
     <div class="card">
       <div class="q-title">Je souhaite faire le trajet de Medine à Makkah ou inversement en</div>
       <label class="opt"><input type="radio" name="Trajet" value="Bus"> Bus</label>
@@ -510,7 +489,7 @@ const dataUrl = await readFileAsBase64(file);
         villeDepart: data['Départ'] || '', 
         preference: data['Commencer par'] || '',
         duree: data['Durée'] || '',
-        formule: data['Formule'] || '',
+        formule: [data['Formule'], data['Catégorie Nusuk']].filter(Boolean).join(' ; '),
         hebergement: [data['Hôtel'], data['Hôtels Makkah']].filter(Boolean).join(' ; '),
         transport: data['Trajet'] || '',
         nusuk: [data['Compte Nusuk'], data['Nusuk validé'], data['Nusuk groupe']].filter(Boolean).join(' ; '),
