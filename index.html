@@ -293,11 +293,11 @@
 
   <div class="card done" id="done">
     <h2>Votre réponse a bien été enregistrée ✔</h2>
-    <p>Jazakum Allahu khayran. Suivez nos informations sur Telegram, Instagram et WhatsApp.<br>Qu’Allah facilite à tous ceux qui veulent faire le hajj.</p>
+    <p>Jazakum Allahu khayran. Suivez nos informations sur Instagram et WhatsApp.<br>Qu’Allah facilite à tous ceux qui veulent faire le hajj.</p>
     <button class="btn" onclick="location.reload()">Envoyer une autre réponse</button>
   </div>
 
-  <div class="foot">© SAFA OMRA · Ne communiquez jamais de mot de passe via ce formulaire.</div>
+  <div class="foot">© SAFA OMRA </div>
 </div>
 
 <script>
@@ -467,9 +467,10 @@ f.addEventListener('submit', async e => {
     ];
     const files = [];
     for (const item of fileInputs) {
-      const file = item.input.files[0];
-      if (!file) continue;
-      const dataUrl = await readFileAsBase64(file);
+      let file = item.input.files[0];
+if (!file) continue;
+file = await compressImage(file);
+const dataUrl = await readFileAsBase64(file);
       files.push({ name: item.label + '_' + file.name, mimeType: file.type, data: dataUrl });
     }
 
@@ -498,7 +499,24 @@ f.addEventListener('submit', async e => {
       },
       files: files,
       website: ''
-    };
+    };const f = document.getElementById('f');
+
+    async function compressImage(file, maxSide = 1600, quality = 0.8) {
+  if (!file.type.startsWith('image/')) return file; // les PDF restent inchangés
+  try {
+    const bmp = await createImageBitmap(file);
+    const scale = Math.min(1, maxSide / Math.max(bmp.width, bmp.height));
+    const c = document.createElement('canvas');
+    c.width = Math.round(bmp.width * scale);
+    c.height = Math.round(bmp.height * scale);
+    c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+    const blob = await new Promise(r => c.toBlob(r, 'image/jpeg', quality));
+    if (!blob) return file;
+    return new File([blob], file.name.replace(/\.\w+$/, '') + '.jpg', {type: 'image/jpeg'});
+  } catch (e) {
+    return file; // en cas de problème, on envoie le fichier d'origine
+  }
+}
 
     btn.textContent = 'Envoi en cours…';
     // Apps Script ne permet pas toujours de lire sa réponse depuis GitHub Pages.
@@ -514,8 +532,8 @@ f.addEventListener('submit', async e => {
     document.querySelector('.intro').style.display = 'none';
     const done = document.getElementById('done');
     done.style.display = 'block';
-    done.querySelector('h2').textContent = 'Votre demande a été transmise';
-    done.querySelector('p').textContent = 'Votre navigateur a transmis la demande. Comme Google Apps Script ne permet pas ici de confirmer le résultat, veuillez vérifier le tableau Google Sheets et le dossier Drive avant de considérer la réception comme validée.';
+    done.querySelector('h2').textContent = 'Votre pré-inscription a été transmise';
+    done.querySelector('p').textContent = 'Vous serez recontacté tres rapidement.';
     window.scrollTo({top: 0, behavior: 'smooth'});
   } catch (err) {
     console.error(err);
