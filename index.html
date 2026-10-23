@@ -101,11 +101,10 @@
       <input type="text" id="prenom" name="Prénom" placeholder="Votre réponse" autocomplete="given-name">
       <div class="err">Cette question est obligatoire.</div></div>
 
-     <div class="card" data-req="text"><label class="q" for="nationalite">Nationalité <span class="star">*</span></label>
-      <input type="text" id="nationalite" name="Nationalité" placeholder="Votre réponse">
+    <div class="card" data-req="text"><label class="q" for="passeport">Numéro de passeport <span class="star">*</span></label>
+      <input type="text" id="passeport" name="Numéro de passeport" placeholder="Votre réponse">
       <div class="err">Cette question est obligatoire.</div></div>
 
-   
     <div class="card" data-req="select" id="passportTypeCard">
       <label class="q" for="passportType">Type de passeport <span class="star">*</span></label>
       <select id="passportType" name="Type de passeport" required>
@@ -128,18 +127,39 @@
       </div>
     </div>
 
-     <div class="card" data-req="text"><label class="q" for="passeport">Numéro de passeport <span class="star">*</span></label>
-      <input type="text" id="passeport" name="Numéro de passeport" placeholder="Votre réponse">
+    <div class="card" data-req="text"><label class="q" for="nationalite">Nationalité <span class="star">*</span></label>
+      <input type="text" id="nationalite" name="Nationalité" placeholder="Votre réponse">
       <div class="err">Cette question est obligatoire.</div></div>
-   
+
+    <div class="card" data-req="select" id="residenceCountryCard">
+      <label class="q" for="residenceCountry">Pays de résidence <span class="star">*</span></label>
+      <select id="residenceCountry" name="Pays de résidence" required>
+        <option value="">Sélectionnez votre pays de résidence</option>
+        <option>France</option><option>Algérie</option><option>Maroc</option><option>Tunisie</option>
+        <option>Belgique</option><option>Suisse</option><option>Luxembourg</option><option>Espagne</option>
+        <option>Italie</option><option>Allemagne</option><option>Royaume-Uni</option><option>Canada</option>
+        <option>États-Unis</option><option>Arabie saoudite</option><option>Autre pays</option>
+      </select>
+      <div class="err">Veuillez sélectionner votre pays de résidence.</div>
+    </div>
+
     <div class="card" data-req="date" id="passportExpiryCard">
       <label class="q" for="passportExpiry">Date d’expiration du passeport <span class="star">*</span></label>
       <input type="date" id="passportExpiry" name="Date d’expiration du passeport" required>
       <div class="err">Veuillez indiquer la date d’expiration du passeport.</div>
     </div>
 
-    <div class="card"><label class="q" for="sejour">Numéro de titre séjour (hors UE)</label>
-      <input type="text" id="sejour" name="Numéro de titre de séjour" placeholder="Votre réponse"></div>
+    <div class="sub" id="residencePermitBox">
+      <label class="q" for="sejour">Numéro de titre de séjour (hors UE) <span class="star">*</span></label>
+      <input type="text" id="sejour" name="Numéro de titre de séjour" placeholder="Votre réponse">
+      <div class="err" id="permitNumberError">Veuillez saisir votre numéro de titre de séjour.</div>
+      <div style="margin-top:14px">
+        <label class="q" for="residenceFile">Copie du titre de séjour <span class="star">*</span></label>
+        <p class="hint">PDF, JPG ou PNG — 5 Mo maximum.</p>
+        <input type="file" id="residenceFile" accept="application/pdf,image/jpeg,image/png">
+        <div class="err" id="permitFileError">Veuillez joindre une copie de votre titre de séjour.</div>
+      </div>
+    </div>
 
     <div class="card" data-req="file" id="passportFileCard">
       <label class="q" for="passportFile">Copie du passeport <span class="star">*</span></label>
@@ -168,11 +188,6 @@
       <div class="err">Veuillez joindre une photo d’identité conforme.</div>
     </div>
 
-    <div class="card">
-      <label class="q" for="residenceFile">Copie du titre de séjour (si concerné)</label>
-      <p class="hint">PDF, JPG ou PNG — 5 Mo maximum.</p>
-      <input type="file" id="residenceFile" accept="application/pdf,image/jpeg,image/png">
-    </div>
 
     <div class="card" data-req="email"><label class="q" for="email">Adresse e-mail <span class="star">*</span></label>
       <input type="email" id="email" name="Adresse e-mail" placeholder="Votre réponse" autocomplete="email">
@@ -211,9 +226,9 @@
       <button type="button" class="clear" data-clear="Formule">Effacer la sélection</button></div>
 
     <div class="card">
-      <div class="q-title">Les hôtels seront de 4 étoiles à 5 étoiles, je préfère avoir un hôtel de</div>
-      <label class="opt"><input type="radio" name="Hôtel" value="4 étoiles"> 4 étoiles</label>
-      <label class="opt"><input type="radio" name="Hôtel" value="5 étoiles"> 5 étoiles</label>
+      <div class="q-title">Les hôtels seront conforts ou économiques, je préfère avoir un hôtel </div>
+      <label class="opt"><input type="radio" name="Hôtel" value="Confort"> Confort</label>
+      <label class="opt"><input type="radio" name="Hôtel" value="Eco"> Eco</label>
       <label class="opt"><input type="radio" name="Hôtel" value="Peu m’importe"> Peu m’importe</label>
       <button type="button" class="clear" data-clear="Hôtel">Effacer la sélection</button></div>
 
@@ -303,6 +318,25 @@ passportType.addEventListener('change', () => {
   }
 });
 
+const residencePermitBox = document.getElementById('residencePermitBox');
+const residencePermitNumber = document.getElementById('sejour');
+const residenceFile = document.getElementById('residenceFile');
+function updateForeignPassportFields() {
+  const foreign = passportType.value === 'Étranger';
+  residencePermitBox.classList.toggle('show', foreign);
+  residencePermitNumber.required = foreign;
+  residenceFile.required = foreign;
+  if (!foreign) {
+    residencePermitNumber.value = '';
+    residenceFile.value = '';
+    residencePermitBox.classList.remove('invalid');
+    document.getElementById('permitNumberError').style.display = 'none';
+    document.getElementById('permitFileError').style.display = 'none';
+  }
+}
+passportType.addEventListener('change', updateForeignPassportFields);
+updateForeignPassportFields();
+
 // Compte Nusuk : sous-questions conditionnelles
 f.querySelectorAll('input[name="Compte Nusuk"]').forEach(r => r.addEventListener('change', () => {
   document.getElementById('subOui').classList.toggle('show', r.value === 'Oui' && r.checked);
@@ -333,6 +367,7 @@ document.getElementById('resetBtn').addEventListener('click', () => {
   document.querySelectorAll('.card.invalid,.sub.invalid').forEach(c => c.classList.remove('invalid'));
   foreignCountryBox.classList.toggle('show', passportType.value === 'Étranger');
   passportCountry.required = passportType.value === 'Étranger';
+  updateForeignPassportFields();
 });
 
 function validate() {
@@ -361,6 +396,19 @@ function validate() {
     card.classList.toggle('invalid', !good);
     if (!good) { ok = false; first = first || card; }
   });
+  const foreignPassport = passportType.value === 'Étranger';
+  const permitNumberMissing = foreignPassport && !residencePermitNumber.value.trim();
+  const permitFileMissing = foreignPassport && !residenceFile.files[0];
+  document.getElementById('permitNumberError').style.display = permitNumberMissing ? 'block' : 'none';
+  document.getElementById('permitFileError').style.display = permitFileMissing ? 'block' : 'none';
+  if (permitNumberMissing || permitFileMissing) {
+    residencePermitBox.classList.add('invalid');
+    ok = false;
+    first = first || residencePermitBox;
+  } else {
+    residencePermitBox.classList.remove('invalid');
+  }
+
   const allowed = ['application/pdf', 'image/jpeg', 'image/png'];
   const selected = [
     document.getElementById('passportFile').files[0],
@@ -429,10 +477,12 @@ f.addEventListener('submit', async e => {
         email: data['Adresse e-mail'] || '',
         telephone: data['Téléphone'] || '',
         nationalite: data['Nationalité'] || '',
+        paysResidence: data['Pays de résidence'] || '',
         numeroPasseport: data['Numéro de passeport'] || '',
         typePasseport: data['Type de passeport'] || '',
         paysPasseport: data['Pays du passeport'] || '',
         dateExpirationPasseport: data['Date d’expiration du passeport'] || '',
+        numeroTitreSejour: data['Numéro de titre de séjour'] || '',
         consentement: data['Autorisation de traitement des données'] || '',
         villeDepart: data['Départ'] || '', 
         preference: data['Commencer par'] || '',
