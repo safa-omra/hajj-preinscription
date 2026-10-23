@@ -216,12 +216,14 @@
       <input type="tel" id="tel" name="Téléphone" placeholder="Votre réponse" autocomplete="tel">
       <div class="err">Cette question est obligatoire.</div></div>
 
-    <div class="card" data-req="radio" data-name="Départ">
+        <div class="card" data-req="radio" data-name="Départ">
       <div class="q-title">Ville de départ souhaitée <span class="star">*</span></div>
       <label class="opt"><input type="radio" name="Départ" value="Paris"> Paris</label>
       <label class="opt"><input type="radio" name="Départ" value="Lyon"> Lyon</label>
       <label class="opt"><input type="radio" name="Départ" value="Lille"> Lille</label>
       <label class="opt"><input type="radio" name="Départ" value="Marseille"> Marseille</label>
+      <label class="opt"><input type="radio" name="Départ" value="Autre"> Autre :</label>
+      <div class="other-text" id="departAutreBox"><input type="text" name="Départ (autre)" placeholder="Précisez la ville de départ souhaitée"></div>
       <div class="err">Cette question est obligatoire.</div></div>
 
     <div class="card">
@@ -366,6 +368,12 @@ f.querySelectorAll('input[name="Compte Nusuk"]').forEach(r => r.addEventListener
 // "Autre" services spéciaux
 document.getElementById('autreChk').addEventListener('change', e =>
   document.getElementById('autreBox').classList.toggle('show', e.target.checked));
+// Ville de départ : "Autre"
+const departAutreBox = document.getElementById('departAutreBox');
+f.querySelectorAll('input[name="Départ"]').forEach(r => r.addEventListener('change', () => {
+  departAutreBox.classList.toggle('show', r.value === 'Autre' && r.checked);
+}));
+ 
 // "Peu m'importe" exclusif pour Makkah
 const mk = f.querySelectorAll('input[name="Hôtels Makkah"]');
 mk.forEach(c => c.addEventListener('change', () => {
@@ -506,7 +514,7 @@ const dataUrl = await readFileAsBase64(file);
         dateExpirationPasseport: data['Date d’expiration du passeport'] || '',
         numeroTitreSejour: data['Numéro de titre de séjour'] || '',
         consentement: data['Autorisation de traitement des données'] || '',
-        villeDepart: data['Départ'] || '', 
+        villeDepart: data['Départ'] === 'Autre' ? ('Autre : ' + (data['Départ (autre)'] || 'non précisée')) : (data['Départ'] || ''),        
         preference: data['Commencer par'] || '',
         duree: data['Durée'] || '',
         formule: [data['Formule'], data['Catégorie Nusuk']].filter(Boolean).join(' ; '),
