@@ -118,6 +118,12 @@
       <input type="text" id="prenom" name="Prénom" placeholder="Votre réponse" autocomplete="given-name">
       <div class="err">Cette question est obligatoire.</div></div>
 
+   <div class="card" data-req="date" id="birthDateCard">
+  <label class="q" for="dateNaissance">Date de naissance <span class="star">*</span></label>
+  <input type="date" id="dateNaissance" name="Date de naissance" required autocomplete="bday">
+  <div class="err">Veuillez indiquer votre date de naissance.</div>
+</div>
+
     <div class="card" data-req="select" id="residenceCountryCard">
       <label class="q" for="residenceCountry">Pays de résidence <span class="star">*</span></label>
       <select id="residenceCountry" name="Pays de résidence" required>
@@ -504,6 +510,7 @@ const dataUrl = await readFileAsBase64(file);
       answers: {
         nom: data['Nom'] || '',
         prenom: data['Prénom'] || '',
+        dateNaissance: data['Date de naissance'] || '',
         email: data['Adresse e-mail'] || '',
         telephone: data['Téléphone'] || '',
         nationalite: data['Nationalité'] || '',
