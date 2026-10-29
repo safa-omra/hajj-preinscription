@@ -79,6 +79,8 @@
   max-width: 180px;
   height: auto;
 }
+  .wa-box{display:none;margin-top:14px}
+  .wa-box.show{display:block}
 </style>
 </head>
 <body>
@@ -218,9 +220,22 @@
       <input type="email" id="email" name="Adresse e-mail" placeholder="Votre réponse" autocomplete="email">
       <div class="err">Veuillez saisir une adresse e-mail valide.</div></div>
 
-    <div class="card" data-req="text"><label class="q" for="tel">Numéro de téléphone (portable ) et whatssap si différent <span class="star">*</span></label>
+    <div class="card" data-req="text" id="phoneCard">
+      <label class="q" for="tel">Numéro de téléphone (portable) <span class="star">*</span></label>
       <input type="tel" id="tel" name="Téléphone" placeholder="Votre réponse" autocomplete="tel">
-      <div class="err">Cette question est obligatoire.</div></div>
+      <div class="err">Cette question est obligatoire.</div>
+
+      <label class="opt" style="margin-top:10px">
+        <input type="checkbox" id="waSame" checked>
+        <span>Ce numéro est aussi mon numéro WhatsApp</span>
+      </label>
+
+      <div class="wa-box" id="waBox">
+        <label class="q" for="whatsapp">Numéro WhatsApp <span class="star">*</span></label>
+        <input type="tel" id="whatsapp" name="WhatsApp" placeholder="Votre numéro WhatsApp" autocomplete="tel">
+        <div class="err" id="waError">Veuillez saisir votre numéro WhatsApp.</div>
+      </div>
+    </div>
 
         <div class="card" data-req="radio" data-name="Départ">
       <div class="q-title">Ville de départ souhaitée <span class="star">*</span></div>
@@ -271,6 +286,7 @@
       <div class="q-title">Quel type de formule vous intéresse ?</div>
       <label class="opt"><input type="radio" name="Formule" value="Économique"> <span><strong>Économique</strong> : le tarif le plus accessible</span></label>
       <label class="opt"><input type="radio" name="Formule" value="Confort"> <span><strong>Confort</strong> : un niveau de confort supérieur</span></label>
+      <label class="opt"><input type="radio" name="Formule" value="Luxe"> <span><strong>Luxe</strong> : le plus haut niveau de confort et de prestations</span></label>
       <button type="button" class="clear" data-clear="Formule">Effacer la sélection</button>
     </div>
    
@@ -366,10 +382,26 @@ function updateForeignPassportFields() {
 passportType.addEventListener('change', updateForeignPassportFields);
 updateForeignPassportFields();
 
+// WhatsApp : identique au téléphone ou numéro distinct
+const waSame = document.getElementById('waSame');
+const waBox = document.getElementById('waBox');
+const waInput = document.getElementById('whatsapp');
+function updateWhatsapp() {
+  const different = !waSame.checked;
+  waBox.classList.toggle('show', different);
+  if (!different) {
+    waInput.value = '';
+    document.getElementById('waError').style.display = 'none';
+  }
+}
+waSame.addEventListener('change', updateWhatsapp);
+updateWhatsapp();
+
 // Compte Nusuk : sous-questions conditionnelles
 f.querySelectorAll('input[name="Compte Nusuk"]').forEach(r => r.addEventListener('change', () => {
   document.getElementById('subOui').classList.toggle('show', r.value === 'Oui' && r.checked);
-  document.getElementById('subNon').classList.toggle('show', r.value === 'Non' && r.checked);
+  const subNon = document.getElementById('subNon');
+  if (subNon) subNon.classList.toggle('show', r.value === 'Non' && r.checked);
 }));
 // "Autre" services spéciaux
 document.getElementById('autreChk').addEventListener('change', e =>
@@ -392,7 +424,8 @@ f.querySelectorAll('[data-clear]').forEach(b => b.addEventListener('click', () =
   f.querySelectorAll('input[name="' + b.dataset.clear + '"]').forEach(i => i.checked = false);
   if (b.dataset.clear === 'Compte Nusuk') {
     document.getElementById('subOui').classList.remove('show');
-    document.getElementById('subNon').classList.remove('show');
+    const subNon = document.getElementById('subNon');
+    if (subNon) subNon.classList.remove('show');
   }
 }));
 document.getElementById('resetBtn').addEventListener('click', () => {
@@ -403,6 +436,7 @@ document.getElementById('resetBtn').addEventListener('click', () => {
   foreignCountryBox.classList.toggle('show', passportType.value === 'Étranger');
   passportCountry.required = passportType.value === 'Étranger';
   updateForeignPassportFields();
+  updateWhatsapp();
 });
 
 function validate() {
@@ -428,6 +462,12 @@ function validate() {
     }
     if (t === 'date') good = !!card.querySelector('input[type="date"]').value;
     if (t === 'checkbox') good = !!card.querySelector('input[type="checkbox"]').checked;
+    // Carte téléphone : le numéro WhatsApp est obligatoire s'il est différent
+    if (card.id === 'phoneCard') {
+      const waMissing = !waSame.checked && !waInput.value.trim();
+      document.getElementById('waError').style.display = waMissing ? 'block' : 'none';
+      if (waMissing) good = false;
+    }
     card.classList.toggle('invalid', !good);
     if (!good) { ok = false; first = first || card; }
   });
@@ -485,6 +525,23 @@ function readFileAsBase64(file) {
   });
 }
 
+async function compressImage(file, maxSide = 1600, quality = 0.8) {
+  if (!file.type.startsWith('image/')) return file; // les PDF restent inchangés
+  try {
+    const bmp = await createImageBitmap(file);
+    const scale = Math.min(1, maxSide / Math.max(bmp.width, bmp.height));
+    const c = document.createElement('canvas');
+    c.width = Math.round(bmp.width * scale);
+    c.height = Math.round(bmp.height * scale);
+    c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
+    const blob = await new Promise(r => c.toBlob(r, 'image/jpeg', quality));
+    if (!blob) return file;
+    return new File([blob], file.name.replace(/\.\w+$/, '') + '.jpg', {type: 'image/jpeg'});
+  } catch (e) {
+    return file; // en cas de problème, on envoie le fichier d'origine
+  }
+}
+
 f.addEventListener('submit', async e => {
   e.preventDefault();
   if (!validate()) return;
@@ -500,11 +557,17 @@ f.addEventListener('submit', async e => {
     const files = [];
     for (const item of fileInputs) {
       let file = item.input.files[0];
-if (!file) continue;
-file = await compressImage(file);
-const dataUrl = await readFileAsBase64(file);
+      if (!file) continue;
+      file = await compressImage(file);
+      const dataUrl = await readFileAsBase64(file);
       files.push({ name: item.label + '_' + file.name, mimeType: file.type, data: dataUrl });
     }
+
+    const telephone = (data['Téléphone'] || '').trim();
+    const whatsappDiff = waSame.checked ? '' : (data['WhatsApp'] || '').trim();
+    // Si le WhatsApp est différent, il est aussi ajouté au champ téléphone
+    // pour qu'il soit conservé même si le script ne gère pas encore la colonne "whatsapp".
+    const telephoneEnvoye = whatsappDiff ? (telephone + ' (WhatsApp : ' + whatsappDiff + ')') : telephone;
 
     const payload = {
       answers: {
@@ -512,7 +575,8 @@ const dataUrl = await readFileAsBase64(file);
         prenom: data['Prénom'] || '',
         dateNaissance: data['Date de naissance'] || '',
         email: data['Adresse e-mail'] || '',
-        telephone: data['Téléphone'] || '',
+        telephone: telephoneEnvoye,
+        whatsapp: whatsappDiff || telephone,
         nationalite: data['Nationalité'] || '',
         paysResidence: data['Pays de résidence'] || '',
         numeroPasseport: data['Numéro de passeport'] || '',
@@ -532,24 +596,7 @@ const dataUrl = await readFileAsBase64(file);
       },
       files: files,
       website: ''
-    };const f = document.getElementById('f');
-
-    async function compressImage(file, maxSide = 1600, quality = 0.8) {
-  if (!file.type.startsWith('image/')) return file; // les PDF restent inchangés
-  try {
-    const bmp = await createImageBitmap(file);
-    const scale = Math.min(1, maxSide / Math.max(bmp.width, bmp.height));
-    const c = document.createElement('canvas');
-    c.width = Math.round(bmp.width * scale);
-    c.height = Math.round(bmp.height * scale);
-    c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height);
-    const blob = await new Promise(r => c.toBlob(r, 'image/jpeg', quality));
-    if (!blob) return file;
-    return new File([blob], file.name.replace(/\.\w+$/, '') + '.jpg', {type: 'image/jpeg'});
-  } catch (e) {
-    return file; // en cas de problème, on envoie le fichier d'origine
-  }
-}
+    };
 
     btn.textContent = 'Envoi en cours…';
     // Apps Script ne permet pas toujours de lire sa réponse depuis GitHub Pages.
